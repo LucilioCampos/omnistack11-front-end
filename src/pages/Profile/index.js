@@ -1,78 +1,67 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom'
-import { FiPower, FiTrash2 } from 'react-icons/fi'
+import { FiTrash2 } from 'react-icons/fi'
+import Header from '../Header'
 
 import './styles.css'
 
-import api from '../../services/api'
-
-import logoImage from '../../assets/logo.svg'
+import api, { ongId } from '../../services/api'
 
 export default function Profile() {
     const [incidents, setIncidents] = useState([])
 
 
-    const ongName = localStorage.getItem('ongName')
-    const ongId = localStorage.getItem('ongId')
-    const history = useHistory()
-
     useEffect(() => {
-        api.get('profile', { headers: {
-            Authorization: ongId
-        } })
+        api.get('profile', {
+            headers: {
+                Authorization: ongId
+            }
+        })
             .then(response => {
                 setIncidents(response.data)
             })
             .catch(err => console.log(err))
-    }, [ongId])
+    }, [])
 
     async function handleDeleteIncident(id) {
         try {
-           await api.delete(`incidents/${id}`, { headers: {
-            Authorization: ongId
-        } })
+            await api.delete(`incidents/${id}`, {
+                headers: {
+                    Authorization: ongId
+                }
+            })
 
-           setIncidents(incidents.filter(incident => incident.id !== id))
+            setIncidents(incidents.filter(incident => incident.id !== id))
         } catch (err) {
             alert('Erro ao delete incidente')
         }
     }
 
-    async function handleLogout() {
-        localStorage.clear();
-        history.push('/')        
-    }
     return (
-        <div className="profile-container">
-            <header>
-                <img src={logoImage} alt="Be The Hero" />
-                <span>Bem vindo, {ongName}</span>
+        <>
+            <Header showCreate={true}/>
+            <div className="profile-container">
 
-                <Link className="button" to="/incidents/new">Cadastrar novo caso</Link>
-                <button onClick={handleLogout} type="button">
-                    <FiPower size={18} color="#e02041" />
-                </button>
-            </header>
-            <h1>Casos cadastrados</h1>
-            <ul>
-                {incidents.map(incident => (
-                    <li key={incident.id}>
-                        <strong>CASO:</strong>
-                        <p>{incident.title}</p>
-                        <strong>DESCRIÇÃO:</strong>
-                        <p>{incident.description}</p>
-                        <strong>VALOR:</strong>
-                        <p>{
-                            Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
-                                .format(incident.value)
-                        }
-                        </p>
-                        <button type="button" onClick={() => handleDeleteIncident(incident.id)}>
-                            <FiTrash2 size={20} color="#A8A8B3" />
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        </div>
+                <h1>Casos cadastrados</h1>
+                <ul>
+                    {incidents.map(incident => (
+                        <li key={incident.id}>
+                            <strong>CASO:</strong>
+                            <p>{incident.title}</p>
+                            <strong>DESCRIÇÃO:</strong>
+                            <p>{incident.description}</p>
+                            <strong>VALOR:</strong>
+                            <p>{
+                                Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+                                    .format(incident.value)
+                            }
+                            </p>
+                            <button type="button" onClick={() => handleDeleteIncident(incident.id)}>
+                                <FiTrash2 size={20} color="#A8A8B3" />
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </>
     )
 }
