@@ -4,13 +4,14 @@ import Header from '../Header'
 
 import './styles.css'
 
-import api from '../../services/api'
+import api, { isAuthenticated } from '../../services/api'
 
 export default function Profile() {
     const [incidents, setIncidents] = useState([])
 
 
     useEffect(() => {
+        console.log(isAuthenticated())
         api.get('profile')
             .then(response => {
                 setIncidents(response.data)

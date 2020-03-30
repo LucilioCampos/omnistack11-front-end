@@ -5,6 +5,8 @@ export const setOngId = (ongId) => localStorage.setItem('ongId', ongId)
 export const getOngName = localStorage.getItem('ongName')
 export const setOngName = (ongId) => localStorage.setItem('ongId', ongId)
 
+export const isAuthenticated = () => getOngId !== null
+
 
 const headers = {
     Authorization: getOngId
