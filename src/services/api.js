@@ -1,10 +1,17 @@
 import axios from 'axios'
 
-export const ongId = localStorage.getItem('ongId')
-export const ongName = localStorage.getItem('ongName')
+export const getOngId = localStorage.getItem('ongId')
+export const setOngId = (ongId) => localStorage.setItem('ongId', ongId)
+export const getOngName = localStorage.getItem('ongName')
+export const setOngName = (ongId) => localStorage.setItem('ongId', ongId)
 
+
+const headers = {
+    Authorization: getOngId
+}
 const api =  axios.create({
-    baseURL: "http://localhost:3333"
+    baseURL: "http://localhost:3333",
+    headers
 })
 
 export default api

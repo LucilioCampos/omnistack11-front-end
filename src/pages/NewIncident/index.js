@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom'
 import { FiArrowLeft } from 'react-icons/fi'
 
-import api, { ongId } from '../../services/api'
+import api from '../../services/api'
 
 import logoImage from '../../assets/logo.svg'
 import './styles.css'
@@ -19,11 +19,7 @@ export default function NewIncident() {
     async function handleNewIncident(e) {
         e.preventDefault();
         try {
-            await api.post('incidents', { title, description, value }, {
-                headers: {
-                    Authorization: ongId
-                }
-            })
+            await api.post('incidents', { title, description, value })
             history.push('/profile')
         } catch (err) {
             alert('Erro ao criar novo incidente!')

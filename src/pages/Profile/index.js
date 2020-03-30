@@ -4,18 +4,14 @@ import Header from '../Header'
 
 import './styles.css'
 
-import api, { ongId } from '../../services/api'
+import api from '../../services/api'
 
 export default function Profile() {
     const [incidents, setIncidents] = useState([])
 
 
     useEffect(() => {
-        api.get('profile', {
-            headers: {
-                Authorization: ongId
-            }
-        })
+        api.get('profile')
             .then(response => {
                 setIncidents(response.data)
             })
@@ -24,11 +20,7 @@ export default function Profile() {
 
     async function handleDeleteIncident(id) {
         try {
-            await api.delete(`incidents/${id}`, {
-                headers: {
-                    Authorization: ongId
-                }
-            })
+            await api.delete(`incidents/${id}`)
 
             setIncidents(incidents.filter(incident => incident.id !== id))
         } catch (err) {

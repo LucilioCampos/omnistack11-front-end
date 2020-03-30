@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom'
 import { FiLogIn } from 'react-icons/fi'
 
-import api from '../../services/api'
+import api, { setOngId, setOngName } from '../../services/api'
 
 import './styles.css';
 
@@ -19,8 +19,8 @@ export default function Logon() {
         try {
             const response = await api.post('sessions', { id })
             const { name } = response.data
-            localStorage.setItem('ongId', id)
-            localStorage.setItem('ongName', name)
+            setOngId('ongId', id)
+            setOngName('ongName', name)
             history.push('/profile')
         } catch (err) {
             alert('Falha no login tente novamente!')

@@ -5,7 +5,7 @@ import { FiPower } from 'react-icons/fi'
 
 import logoImage from '../../assets/logo.svg'
 
-import { ongName } from '../../services/api'
+import { getOngName } from '../../services/api'
 
 import './styles.css'
 
@@ -22,7 +22,7 @@ export default function Header({ showCreate=false }) {
         <div className="header-container">
             <header>
                 <img src={logoImage} alt="Be The Hero" />
-                <span>Bem vindo, {ongName}</span>
+                <span>Bem vindo, {getOngName}</span>
 
                 { showCreate && (
                     <>
